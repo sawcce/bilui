@@ -5,6 +5,7 @@ mod graphics;
 use graphics::element::Element;
 use graphics::types::Position;
 use graphics::rect::ScaledRect;
+use graphics::layout::{Direction, Flex};
 
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
@@ -17,7 +18,7 @@ pub fn main() {
     let video_subsystem = sdl_context.video().unwrap();
 
     let window = video_subsystem
-        .window("rust-sdl2 demo", 800, 600)
+        .window("Bilui", 800, 600)
         .position_centered()
         .resizable()
         .build()
@@ -30,9 +31,15 @@ pub fn main() {
     canvas.present();
 
     let mut rect1 = ScaledRect::new(50f32, 100f32, vec![], Color::RGBA(100, 0, 0, 0));
+    rect1.set_margin(Position(10,10));
+
+    let mut rect2 = ScaledRect::new(50f32, 100f32, vec![], Color::RGBA(0, 100, 0, 0));
+    rect2.set_margin(Position(10,10));
+
+    let mut row = Flex::new(vec![Box::new(rect1), Box::new(rect2)], 0, Direction::Row);
 
 
-    let mut rect = ScaledRect::new(100f32, 100f32, vec![Box::new(rect1)], Color::RGBA(18, 18, 18, 0));
+    let mut rect = ScaledRect::new(100f32, 100f32, vec![Box::new(row)], Color::RGBA(18, 18, 18, 0));
     rect.set_margin(Position(25, 25));
 
     let mut event_pump = sdl_context.event_pump().unwrap();

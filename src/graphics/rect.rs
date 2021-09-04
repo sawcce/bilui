@@ -3,9 +3,9 @@ use sdl2::rect::Rect;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
 
+use super::data::{Computed, Size};
 use super::element::Element;
-use super::types::{V2i32, Position};
-
+use super::types::{Children, Position, V2i32};
 
 pub struct ScaledRect {
     width: f32,
@@ -13,16 +13,12 @@ pub struct ScaledRect {
     pixel_offset: V2i32,
     margin: Position,
     color: Color,
-    children: Vec<Box<dyn Element>>,
+    children: Children,
+    computed: Computed,
 }
 
 impl ScaledRect {
-    pub fn new(
-        width: f32,
-        height: f32,
-        children: Vec<Box<dyn Element>>,
-        color: Color,
-    ) -> ScaledRect {
+    pub fn new(width: f32, height: f32, children: Children, color: Color) -> ScaledRect {
         return ScaledRect {
             width,
             height,
@@ -30,7 +26,12 @@ impl ScaledRect {
             pixel_offset: V2i32(0, 0),
             margin: Position(0, 0),
             children,
+            computed: Computed::new(),
         };
+    }
+
+    pub fn set_offset(&mut self, offset: V2i32) {
+        self.pixel_offset = offset;
     }
 }
 
@@ -53,6 +54,7 @@ impl Element for ScaledRect {
 
         let mut width = ((self.width / 100f32) * size.0 as f32) as u32;
         let mut height = ((self.height / 100f32) * size.1 as f32) as u32;
+        self.computed.size = Size::new(width, height);
 
         width -= self.margin.0 * 2;
         height -= self.margin.1 * 2;
@@ -71,7 +73,7 @@ impl Element for ScaledRect {
         self.margin = margin;
     }
 
-    fn set_offset(&mut self, offset: V2i32) {
-        self.pixel_offset = offset;
+    fn computed(&self) -> &Computed {
+        return &self.computed;
     }
 }
