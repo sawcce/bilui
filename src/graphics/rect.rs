@@ -3,22 +3,9 @@ use sdl2::rect::Rect;
 use sdl2::render::Canvas;
 use sdl2::video::Window;
 
-#[derive(Debug)]
+use super::element::Element;
+use super::types::{V2i32, Position};
 
-pub struct Position(pub u32, pub u32);
-pub struct V2i32(i32, i32);
-pub struct Children(pub Vec<Box<dyn Element>>);
-
-pub trait Element {
-    fn render(
-        &mut self,
-        size: (u32, u32),
-        canvas: &mut Canvas<Window>,
-        parent_offset: Option<V2i32>,
-    );
-    fn set_margin(&mut self, margin: Position);
-    fn set_offset(&mut self, offset: V2i32);
-}
 
 pub struct ScaledRect {
     width: f32,
@@ -69,8 +56,6 @@ impl Element for ScaledRect {
 
         width -= self.margin.0 * 2;
         height -= self.margin.1 * 2;
-
-        println!("{}x{}, {:?}", (self.width / 100f32), height, size);
 
         canvas.set_draw_color(self.color);
         let _ = canvas.fill_rect(Rect::new(offset.0, offset.1, width, height));

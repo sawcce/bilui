@@ -2,14 +2,13 @@ extern crate sdl2;
 
 mod graphics;
 
-use graphics::rect::Element;
-use graphics::rect::Position;
-use graphics::rect::{Children, ScaledRect};
+use graphics::element::Element;
+use graphics::types::Position;
+use graphics::rect::ScaledRect;
 
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
 use sdl2::pixels::Color;
-use sdl2::rect::Rect;
 
 use std::time::Duration;
 
