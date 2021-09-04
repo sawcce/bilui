@@ -29,12 +29,11 @@ pub fn main() {
     canvas.clear();
     canvas.present();
 
-    let mut rect1 = ScaledRect::new(100f32, 100f32, vec![], Color::RGBA(100, 0, 0, 0));
-    rect1.set_margin(Position(10, 10));
+    let mut rect1 = ScaledRect::new(50f32, 100f32, vec![], Color::RGBA(100, 0, 0, 0));
 
 
-    let mut rect = ScaledRect::new(100f32, 100f32, vec![Box::new(rect1)], Color::RGBA(0, 100, 0, 0));
-    rect.set_margin(Position(10, 10));
+    let mut rect = ScaledRect::new(100f32, 100f32, vec![Box::new(rect1)], Color::RGBA(18, 18, 18, 0));
+    rect.set_margin(Position(25, 25));
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     'running: loop {
