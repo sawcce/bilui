@@ -30,17 +30,23 @@ pub fn main() {
     canvas.clear();
     canvas.present();
 
-    let mut rect1 = ScaledRect::new(50f32, 100f32, vec![], Color::RGBA(100, 0, 0, 0));
-    rect1.set_margin(Position(10,10));
+    // Create rectangle that has 50% of the width of the parent and take the full height of the parent
+    let mut rect1 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(100, 0, 0, 0));
+    let mut rect2 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 100, 0, 0));
+    let mut rect3 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 0, 100, 0));
+    let mut rect4 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 100, 100, 0));
 
-    let mut rect2 = ScaledRect::new(50f32, 100f32, vec![], Color::RGBA(0, 100, 0, 0));
-    rect2.set_margin(Position(10,10));
+    // Create a row that contains the two boxes
+    let col1 = Flex::new(vec![Box::new(rect1), Box::new(rect2)], 0, Direction::Column);
+    let col1container = ScaledRect::new(50f32, 100f32, vec![Box::new(col1)], Color::RGBA(100, 0, 0, 0));
+    let col2 = Flex::new(vec![Box::new(rect3), Box::new(rect4)], 0, Direction::Column);
+    let col2container = ScaledRect::new(50f32, 100f32, vec![Box::new(col2)], Color::RGBA(100, 0, 0, 0));
 
-    let mut row = Flex::new(vec![Box::new(rect1), Box::new(rect2)], 0, Direction::Row);
+    let mut main_row = Flex::new(vec![Box::new(col1container), Box::new(col2container)], 0, Direction::Row);
 
-
-    let mut rect = ScaledRect::new(100f32, 100f32, vec![Box::new(row)], Color::RGBA(18, 18, 18, 0));
-    rect.set_margin(Position(25, 25));
+    // Box container, containing the row
+    let mut main = ScaledRect::new(100f32, 100f32, vec![Box::new(main_row)], Color::RGBA(18, 18, 18, 0));
+    main.set_margin(Position(25, 25));
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     'running: loop {
@@ -63,7 +69,7 @@ pub fn main() {
         let window = canvas.window_mut();
         let size = window.size();
 
-        rect.render(size, &mut canvas, None);
+        main.render(size, &mut canvas, None);
 
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
