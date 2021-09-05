@@ -30,20 +30,26 @@ pub fn main() {
     canvas.clear();
     canvas.present();
 
-    // Create rectangle that has 50% of the width of the parent and take the full height of the parent
+    // Create rectangle that has 100% of the width of the parent and take half the height of the parent
     let mut rect1 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(100, 0, 0, 0));
+    // add margin of 10 pixels in width, 20 pixels in height
     rect1.set_margin(Position(10,20));
+
+    // Same here
     let mut rect2 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 100, 0, 0));
     rect2.set_margin(Position(20,40));
     let mut rect3 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 0, 100, 0));
     let mut rect4 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 100, 100, 0));
 
-    // Create a row that contains the two boxes
+    // Create a column that contains the two boxes
     let col1 = Flex::new(vec![Box::new(rect1), Box::new(rect2)], 0, Direction::Column);
+    // Create a container for the column
     let col1container = ScaledRect::new(50f32, 100f32, vec![Box::new(col1)], Color::RGBA(255, 50, 0, 255));
+    
     let col2 = Flex::new(vec![Box::new(rect3), Box::new(rect4)], 0, Direction::Column);
     let col2container = ScaledRect::new(50f32, 100f32, vec![Box::new(col2)], Color::RGBA(100, 0, 100, 255));
 
+    // Create a row to contain the two columns (making a grid);
     let mut main_row = Flex::new(vec![Box::new(col1container), Box::new(col2container)], 0, Direction::Row);
 
     // Box container, containing the row
