@@ -17,6 +17,7 @@ pub enum ChildSize {
 pub struct Flex {
     children: Children,
     gap: u32,
+    margin: Position,
     size: Size,
     direction: Direction,
     children_size: ChildSize,
@@ -38,6 +39,7 @@ impl Flex {
             direction: direction,
             computed: Computed::new(),
             children_size,
+            margin: Position(0, 0),
         }
     }
 
@@ -53,8 +55,13 @@ impl Element for Flex {
         canvas: &mut Canvas<Window>,
         parent_offset: Option<V2i32>,
     ) {
+        let mut p_offset = V2i32(self.margin.0 as i32, self.margin.1 as i32);
+
         let mut width = ((self.size.x as f32 / 100f32) * size.0 as f32) as u32;
         let mut height = ((self.size.y as f32 / 100f32) * size.1 as f32) as u32;
+
+        width -= self.margin.0 * 2;
+        height -= self.margin.1 * 2;
 
         let mut child_size = (width, height);
 
@@ -68,10 +75,13 @@ impl Element for Flex {
             _ => {}
         }
 
-        let parent_offset = match parent_offset {
+        let mut parent_offset = match parent_offset {
             None => V2i32(0, 0),
             Some(x) => x,
         };
+
+        parent_offset.0 += self.margin.0 as i32;
+        parent_offset.1 += self.margin.1 as i32;
 
         self.computed.size = Size::new(width, height);
 
@@ -95,11 +105,14 @@ impl Element for Flex {
     }
 
     fn set_margin(&mut self, margin: Position) {
-        self.gap = match self.direction {
-            Direction::Row => (margin.0 as u32),
-            Direction::Column => (margin.1 as u32),
-            _ => 0u32,
-        }
+        println!("{} {}", margin.0, margin.1);
+        self.margin = margin;
+
+        //self.gap = match self.direction {
+        //    Direction::Row => (margin.0 as u32),
+        //    Direction::Column => (margin.1 as u32),
+        //    _ => 0u32,
+        //}
     }
 
     fn computed(&self) -> &Computed {

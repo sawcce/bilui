@@ -39,7 +39,6 @@ pub fn main() {
     // Create rectangle that has 100% of the width of the parent and take half the height of the parent
     let mut rect1 = ScaledRect::new(100f32, 100f32, vec![], surface);
     let mut rect2 = ScaledRect::new(100f32, 100f32, vec![], surface);
-    rect1.set_margin(Position(10,10));
     rect2.set_margin(Position(10,10));
 
     let mut rect3 = ScaledRect::new(100f32, 100f32, vec![], surface);
@@ -47,11 +46,13 @@ pub fn main() {
 
     // Create a column that contains the two boxes
     let children: Children = vec![Box::new(rect1), Box::new(rect2)];
-    let col1 = Flex::new(children, Size::new(100, 100), 0, column, fr);
+    let mut col1 = Flex::new(children, Size::new(100, 100), 0, column, fr);
 
     // Create a row to contain the two columns (making a grid);
     let children: Children = vec![Box::new(col1), Box::new(rect3)];
     let mut main_row = Flex::new(children, Size::new(100, 100),  0, Direction::Row, ChildSize::Fractional);
+
+    let mut i = 1;
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     'running: loop {
@@ -75,6 +76,10 @@ pub fn main() {
         let size = window.size();
 
         main_row.render(size, &mut canvas, None);
+        main_row.set_margin(Position(i, i));
+
+        i += 1;
+        i = i % 100;
 
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));
