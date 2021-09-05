@@ -1,3 +1,7 @@
+pub struct Style {
+    margin: u64,
+    padding: u64,
+}
 
 pub struct Size {
     pub x: u32,
