@@ -18,18 +18,18 @@ Plans:
 Problem fixed: Flex layouts are now resizable like ScaledRect!
 
 ---------------------------------------------------------------
-```
-Also that the width is actually determined by the layout's width and not a fractional width like in the flexbox layout in html and css when doing width: 100% on a child.
 
-This could be a different layout or a layout mode for example:
+~~Also that the width is actually determined by the layout's width and not a fractional width like in the flexbox layout in html and css when doing width: 100% on a child.~~
 
-child_space: parent; /* default */
-child_space: fractional /* each child has an equal fraction of the parent's width */
-```
+~~This could be a different layout or a layout mode for example:~~
 
----------------------------------------------------------------
+~~child_space: parent; /* default */~~
+~~child_space: fractional /* each child has an equal fraction of the parent's width */~~
+
 
 Problem fixed! Added an option to specify the way that the children's width/height is calculated on a flex layout;
+
+---------------------------------------------------------------
 
 ```rust
 struct ChildSize {
