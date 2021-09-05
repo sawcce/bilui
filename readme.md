@@ -13,9 +13,13 @@ Plans:
 
 #### Layouts
 
-As you might have seen layouts are basically a box that matches the size of it's parent and arranges it's children in a specific fashion. 
+~~As you might have seen layouts are basically a box that matches the size of it's parent and arranges it's children in a specific fashion. 
 
-This might be subject to changes in the future as it is not really readable.
+This might be subject to changes in the future as it is not really readable.~~
+
+Problem fixed: Flex layouts are now resizable like ScaledRect!
+
+---------------------------------------------------------------
 
 Also that the width is actually determined by the layout's width and not a fractional width like in the flexbox layout in html and css when doing width: 100% on a child.
 
