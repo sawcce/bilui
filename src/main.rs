@@ -5,7 +5,7 @@ mod graphics;
 use graphics::element::Element;
 use graphics::types::Position;
 use graphics::rect::ScaledRect;
-use graphics::layout::{Direction, Flex};
+use graphics::layout::{Direction, ChildSize, Flex};
 use graphics::data::{Size};
 
 use sdl2::event::Event;
@@ -27,29 +27,27 @@ pub fn main() {
 
     let mut canvas = window.into_canvas().build().unwrap();
 
-    canvas.set_draw_color(Color::RGB(0, 255, 255));
+    canvas.set_draw_color(Color::RGB(12, 12, 12));
     canvas.clear();
     canvas.present();
 
     // Create rectangle that has 100% of the width of the parent and take half the height of the parent
-    let rect1 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(100, 0, 0, 0));
-    let rect2 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 100, 0, 0));
-    let rect3 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 0, 100, 0));
-    let rect4 = ScaledRect::new(100f32, 50f32, vec![], Color::RGBA(0, 100, 100, 0));
+    let mut rect1 = ScaledRect::new(100f32, 100f32, vec![], Color::RGBA(50, 50, 50, 255));
+    let mut rect2 = ScaledRect::new(100f32, 100f32, vec![], Color::RGBA(50, 50, 50, 255));
+    rect1.set_margin(Position(10,10));
+    rect2.set_margin(Position(10,10));
+
+    let mut rect3 = ScaledRect::new(100f32, 100f32, vec![], Color::RGBA(0, 0, 100, 0));
+    rect3.set_margin(Position(10,10));
 
     // Create a column that contains the two boxes
-    let col1 = Flex::new(vec![Box::new(rect1), Box::new(rect2)], Size::new(50, 100), 0, Direction::Column);
-    let col2 = Flex::new(vec![Box::new(rect3), Box::new(rect4)], Size::new(50, 100),  0, Direction::Column);
+    let col1 = Flex::new(vec![Box::new(rect1), Box::new(rect2)], Size::new(100, 100), 0, Direction::Column, ChildSize::Fractional);
     // Create a row to contain the two columns (making a grid);
-    let mut main_row = Flex::new(vec![Box::new(col1), Box::new(col2)], Size::new(100, 100),  0, Direction::Row);
-
-    // Box container, containing the row
-    let mut main = ScaledRect::new(100f32, 100f32, vec![Box::new(main_row)], Color::RGBA(18, 18, 18, 0));
-    main.set_margin(Position(25, 25));
+    let mut main_row = Flex::new(vec![Box::new(col1), Box::new(rect3)], Size::new(100, 100),  0, Direction::Row, ChildSize::Fractional);
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     'running: loop {
-        canvas.set_draw_color(Color::RGB(0, 255, 255));
+        canvas.set_draw_color(Color::RGB(12, 12, 12));
         canvas.clear();
 
         for event in event_pump.poll_iter() {
@@ -68,7 +66,7 @@ pub fn main() {
         let window = canvas.window_mut();
         let size = window.size();
 
-        main.render(size, &mut canvas, None);
+        main_row.render(size, &mut canvas, None);
 
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));

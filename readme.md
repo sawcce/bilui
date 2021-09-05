@@ -13,22 +13,31 @@ Plans:
 
 #### Layouts
 
-~~As you might have seen layouts are basically a box that matches the size of it's parent and arranges it's children in a specific fashion. 
-
-This might be subject to changes in the future as it is not really readable.~~
+~~As you might have seen layouts are basically a box that matches the size of it's parent and arranges it's children in a specific fashion.  This might be subject to changes in the future as it is not really readable.~~
 
 Problem fixed: Flex layouts are now resizable like ScaledRect!
 
 ---------------------------------------------------------------
-
+```
 Also that the width is actually determined by the layout's width and not a fractional width like in the flexbox layout in html and css when doing width: 100% on a child.
 
 This could be a different layout or a layout mode for example:
 
-```css
 child_space: parent; /* default */
 child_space: fractional /* each child has an equal fraction of the parent's width */
 ```
+
+---------------------------------------------------------------
+
+Problem fixed! Added an option to specify the way that the children's width/height is calculated on a flex layout;
+
+```rust
+struct ChildSize {
+    Fractional,
+    Absolute,
+}
+```
+
 
 ### The way that margin is handled.
 
