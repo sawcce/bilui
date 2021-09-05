@@ -105,7 +105,6 @@ impl Element for Flex {
     }
 
     fn set_margin(&mut self, margin: Position) {
-        println!("{} {}", margin.0, margin.1);
         self.margin = margin;
 
         //self.gap = match self.direction {
