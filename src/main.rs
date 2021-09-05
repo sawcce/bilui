@@ -7,6 +7,7 @@ use graphics::types::Position;
 use graphics::rect::ScaledRect;
 use graphics::layout::{Direction, ChildSize, Flex};
 use graphics::data::{Size};
+use graphics::types::{Children};
 
 use sdl2::event::Event;
 use sdl2::keyboard::Keycode;
@@ -31,19 +32,26 @@ pub fn main() {
     canvas.clear();
     canvas.present();
 
+    let column = Direction::Column;
+    let fr = ChildSize::Fractional;
+    let surface = Color::RGBA(50, 50, 50, 255);
+
     // Create rectangle that has 100% of the width of the parent and take half the height of the parent
-    let mut rect1 = ScaledRect::new(100f32, 100f32, vec![], Color::RGBA(50, 50, 50, 255));
-    let mut rect2 = ScaledRect::new(100f32, 100f32, vec![], Color::RGBA(50, 50, 50, 255));
+    let mut rect1 = ScaledRect::new(100f32, 100f32, vec![], surface);
+    let mut rect2 = ScaledRect::new(100f32, 100f32, vec![], surface);
     rect1.set_margin(Position(10,10));
     rect2.set_margin(Position(10,10));
 
-    let mut rect3 = ScaledRect::new(100f32, 100f32, vec![], Color::RGBA(0, 0, 100, 0));
+    let mut rect3 = ScaledRect::new(100f32, 100f32, vec![], surface);
     rect3.set_margin(Position(10,10));
 
     // Create a column that contains the two boxes
-    let col1 = Flex::new(vec![Box::new(rect1), Box::new(rect2)], Size::new(100, 100), 0, Direction::Column, ChildSize::Fractional);
+    let children: Children = vec![Box::new(rect1), Box::new(rect2)];
+    let col1 = Flex::new(children, Size::new(100, 100), 0, column, fr);
+
     // Create a row to contain the two columns (making a grid);
-    let mut main_row = Flex::new(vec![Box::new(col1), Box::new(rect3)], Size::new(100, 100),  0, Direction::Row, ChildSize::Fractional);
+    let children: Children = vec![Box::new(col1), Box::new(rect3)];
+    let mut main_row = Flex::new(children, Size::new(100, 100),  0, Direction::Row, ChildSize::Fractional);
 
     let mut event_pump = sdl_context.event_pump().unwrap();
     'running: loop {
