@@ -33,7 +33,7 @@ impl Flex {
         children_size: ChildSize,
     ) -> Flex {
         Flex {
-            children,
+            children: children,
             size,
             gap,
             direction: direction,

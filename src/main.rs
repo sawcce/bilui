@@ -37,11 +37,12 @@ pub fn main() {
     let surface = Color::RGBA(50, 50, 50, 255);
 
     // Create rectangle that has 100% of the width of the parent and take half the height of the parent
-    let mut rect1 = ScaledRect::new(100f32, 100f32, vec![], surface);
-    let mut rect2 = ScaledRect::new(100f32, 100f32, vec![], surface);
+    let mut rect1 = ScaledRect::new(Size::new(100, 100), vec![], surface);
+    rect1.set_margin(Position(10,10));
+    let mut rect2 = ScaledRect::new(Size::new(100, 100), vec![], surface);
     rect2.set_margin(Position(10,10));
 
-    let mut rect3 = ScaledRect::new(100f32, 100f32, vec![], surface);
+    let mut rect3 = ScaledRect::new(Size::new(100, 100), vec![], surface);
     rect3.set_margin(Position(10,10));
 
     // Create a column that contains the two boxes
@@ -76,10 +77,10 @@ pub fn main() {
         let size = window.size();
 
         main_row.render(size, &mut canvas, None);
-        main_row.set_margin(Position(i, i));
+        //col1.set_margin(Position(i, i));
 
         i += 1;
-        i = i % 100;
+        i = i % 1000;
 
         canvas.present();
         ::std::thread::sleep(Duration::new(0, 1_000_000_000u32 / 60));

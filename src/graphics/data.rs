@@ -3,6 +3,7 @@ pub struct Style {
     padding: u64,
 }
 
+#[derive(Copy, Clone)]
 pub struct Size {
     pub x: u32,
     pub y: u32,
@@ -24,6 +25,7 @@ impl Size {
     }
 }
 
+#[derive(Copy, Clone)]
 pub struct Computed {
     pub size: Size,
 }

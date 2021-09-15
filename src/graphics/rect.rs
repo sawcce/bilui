@@ -8,30 +8,23 @@ use super::element::Element;
 use super::types::{Children, Position, V2i32};
 
 pub struct ScaledRect {
-    width: f32,
-    height: f32,
-    pixel_offset: V2i32,
+    size: Size,
     margin: Position,
     color: Color,
     children: Children,
     computed: Computed,
 }
 
+
 impl ScaledRect {
-    pub fn new(width: f32, height: f32, children: Children, color: Color) -> ScaledRect {
+    pub fn new(size: Size, children: Children, color: Color) -> ScaledRect {
         return ScaledRect {
-            width,
-            height,
+            size,
             color,
-            pixel_offset: V2i32(0, 0),
             margin: Position(0, 0),
             children,
             computed: Computed::new(),
         };
-    }
-
-    pub fn set_offset(&mut self, offset: V2i32) {
-        self.pixel_offset = offset;
     }
 }
 
@@ -52,8 +45,8 @@ impl Element for ScaledRect {
             }
         }
 
-        let mut width = ((self.width / 100f32) * size.0 as f32) as u32;
-        let mut height = ((self.height / 100f32) * size.1 as f32) as u32;
+        let mut width = ((self.size.x as f32/ 100f32) * size.0 as f32) as u32;
+        let mut height = ((self.size.y as f32/ 100f32) * size.1 as f32) as u32;
         self.computed.size = Size::new(width, height);
 
         width -= self.margin.0 * 2;
